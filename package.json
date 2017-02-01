@@ -1,0 +1,71 @@
+{
+  "name": "bs-token-data",
+  "version": "1.0.0",
+  "description": "A contract which persits all the data related with bs ethereum system",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "ethereum",
+    "blockchain",
+    "contract",
+    "solidity",
+    "web3"
+  ],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/brentertz/scapegoat/blob/master/LICENSE-MIT"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/BancoSabadell/bs-token-data/issues"
+  },
+  "homepage": "https://github.com/BancoSabadell/bs-token-data#readme",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/BancoSabadell/bs-token-data.git"
+  },
+  "dependencies": {
+    "solc": "^0.4.6",
+    "web3": "^0.16.0",
+    "eslint": "^3.12.2",
+    "contract-deployer": "^1.0.0"
+  },
+  "devDependencies": {
+    "bignumber.js": "^4.0.0",
+    "bluebird": "^3.4.6",
+    "chai": "^3.5.0",
+    "chai-as-promised": "^6.0.0",
+    "ethereumjs-testrpc": "^3.0.2",
+    "mocha": "^3.1.2"
+  },
+  "eslintConfig": {
+    "env": {
+      "node": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "script"
+    },
+    "rules": {
+      "no-unused-vars": [
+        "error",
+        {
+          "argsIgnorePattern": "^_"
+        }
+      ],
+      "indent": [
+        "error",
+        4
+      ],
+      "comma-dangle": [
+        "error",
+        {
+          "functions": "ignore"
+        }
+      ]
+    }
+  }
+}
