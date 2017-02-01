@@ -5,6 +5,8 @@ const Web3 = require('web3');
 const Promise = require('bluebird');
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
+const GTPermissionManager = require('gt-permission-manager');
+
 const BsTokenData = require('../src/index');
 const BigNumber = require('bignumber.js');
 const gas = 3000000;
@@ -41,6 +43,7 @@ describe('BsTokenData contract', function () {
     const amount = 100;
 
     let bsTokenData = null;
+    let permissionManager = null;
 
     const admin = '0x5bd47e61fbbf9c8b70372b6f14b068fddbd834ac';
     const account2 = '0x25e940685e0999d4aa7bd629d739c6a04e625761';
@@ -49,8 +52,10 @@ describe('BsTokenData contract', function () {
 
     before(function() {
         this.timeout(60000);
-        return BsTokenData.deployedContract(web3, admin, gas)
-            .then(contract => {
+        return GTPermissionManager.deployedContract(web3, admin, gas)
+            .then((contract) => permissionManager = contract)
+            .then(() => BsTokenData.deployedContract(web3, admin, permissionManager, gas))
+            .then((contract) => {
                 bsTokenData = contract;
                 bsTokenData.addMerchantAsync(merchant, { from: admin, gas: gas });
             });
