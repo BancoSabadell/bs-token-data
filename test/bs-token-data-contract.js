@@ -115,23 +115,33 @@ describe('BsTokenData contract', function () {
 
     describe('stoppable as admin', () => {
         it('start should be fulfilled', () => {
-            return bsTokenData.startEmergencyAsync({ from: admin, gas: gas});
+            return permissionManager.setRolAsync(bsTokenData.address, 3, {
+                from: admin,
+                gas: gas
+            });
         });
 
         it('stop should be fulfilled', () => {
-            return bsTokenData.stopEmergencyAsync({ from: admin, gas: gas});
+            return permissionManager.setRolAsync(bsTokenData.address, 2, {
+                from: admin,
+                gas: gas
+            });
         });
     });
 
     describe('stoppable as non admin account', () => {
         it('start should be rejected', () => {
-            return bsTokenData.startEmergencyAsync({ from: account2, gas: gas})
-                .should.eventually.be.rejected;
+            return permissionManager.setRolAsync(bsTokenData.address, 3, {
+                from: account2,
+                gas: gas
+            }).should.eventually.be.rejected;
         });
 
-        it('startEmergency should be rejected', () => {
-            return bsTokenData.stopEmergencyAsync({ from: account2, gas: gas})
-                .should.eventually.be.rejected;
+        it('stopEmergency should be rejected', () => {
+            return permissionManager.setRolAsync(bsTokenData.address, 2, {
+                from: account2,
+                gas: gas
+            }).should.eventually.be.rejected;
         });
     });
 
@@ -244,7 +254,10 @@ describe('BsTokenData contract', function () {
 
     describe('set/get Balance as admin', () => {
         it('start emergency', () => {
-            return bsTokenData.startEmergencyAsync({ from: admin, gas: gas});
+            return permissionManager.setRolAsync(bsTokenData.address, 3, {
+                from: admin,
+                gas: gas
+            });
         });
 
         it('setBalance should be rejected if stopInEmergency', () => {
@@ -257,7 +270,10 @@ describe('BsTokenData contract', function () {
         });
 
         it('stop emergency', () => {
-            return bsTokenData.stopEmergencyAsync({ from: admin, gas: gas});
+            return permissionManager.setRolAsync(bsTokenData.address, 2, {
+                from: admin,
+                gas: gas
+            });
         });
 
         it('setBalance should be fulfilled', () => {
@@ -294,7 +310,10 @@ describe('BsTokenData contract', function () {
         });
 
         it('start emergency', () => {
-            return bsTokenData.startEmergencyAsync({ from: admin, gas: gas});
+            return permissionManager.setRolAsync(bsTokenData.address, 3, {
+                from: admin,
+                gas: gas
+            });
         });
 
         it('setBalance should be rejected if stopInEmergency', () => {
@@ -307,7 +326,10 @@ describe('BsTokenData contract', function () {
         });
 
         it('stop emergency', () => {
-            return bsTokenData.stopEmergencyAsync({ from: admin, gas: gas});
+            return permissionManager.setRolAsync(bsTokenData.address, 2, {
+                from: admin,
+                gas: gas
+            });
         });
 
         it('setBalance should be fulfilled', () => {
@@ -357,7 +379,10 @@ describe('BsTokenData contract', function () {
 
     describe('set/get totalSupply as admin', () => {
         it('start emergency', () => {
-            return bsTokenData.startEmergencyAsync({ from: admin, gas: gas});
+            return permissionManager.setRolAsync(bsTokenData.address, 3, {
+                from: admin,
+                gas: gas
+            });
         });
 
         it('setTotalSupply should be rejected if stopInEmergency', () => {
@@ -370,7 +395,10 @@ describe('BsTokenData contract', function () {
         });
 
         it('stop emergency', () => {
-            return bsTokenData.stopEmergencyAsync({ from: admin, gas: gas});
+            return permissionManager.setRolAsync(bsTokenData.address, 2, {
+                from: admin,
+                gas: gas
+            });
         });
 
         it('setTotalSupply should be fulfilled', () => {
@@ -421,7 +449,10 @@ describe('BsTokenData contract', function () {
         });
 
         it('start emergency', () => {
-            return bsTokenData.startEmergencyAsync({ from: admin, gas: gas});
+            return permissionManager.setRolAsync(bsTokenData.address, 3, {
+                from: admin,
+                gas: gas
+            });
         });
 
         it('setTotalSupply should be rejected if stopInEmergency', () => {
@@ -434,7 +465,10 @@ describe('BsTokenData contract', function () {
         });
 
         it('stop emergency', () => {
-            return bsTokenData.stopEmergencyAsync({ from: admin, gas: gas});
+            return permissionManager.setRolAsync(bsTokenData.address, 2, {
+                from: admin,
+                gas: gas
+            });
         });
 
         it('setTotalSupply should be fulfilled', () => {
@@ -487,7 +521,10 @@ describe('BsTokenData contract', function () {
 
     describe('set/get allowance as admin', () => {
         it('start emergency', () => {
-            return bsTokenData.startEmergencyAsync({ from: admin, gas: gas});
+            return permissionManager.setRolAsync(bsTokenData.address, 3, {
+                from: admin,
+                gas: gas
+            });
         });
 
         it('setAllowance should be rejected if stopInEmergency', () => {
@@ -500,7 +537,10 @@ describe('BsTokenData contract', function () {
         });
 
         it('stop emergency', () => {
-            return bsTokenData.stopEmergencyAsync({ from: admin, gas: gas});
+            return permissionManager.setRolAsync(bsTokenData.address, 2, {
+                from: admin,
+                gas: gas
+            });
         });
 
         it('setAllowance should be fulfilled', () => {
@@ -537,7 +577,10 @@ describe('BsTokenData contract', function () {
         });
 
         it('start emergency', () => {
-            return bsTokenData.startEmergencyAsync({ from: admin, gas: gas});
+            return permissionManager.setRolAsync(bsTokenData.address, 3, {
+                from: admin,
+                gas: gas
+            });
         });
 
         it('setAllowance should be rejected if stopInEmergency', () => {
@@ -550,7 +593,10 @@ describe('BsTokenData contract', function () {
         });
 
         it('stop emergency', () => {
-            return bsTokenData.stopEmergencyAsync({ from: admin, gas: gas});
+            return permissionManager.setRolAsync(bsTokenData.address, 2, {
+                from: admin,
+                gas: gas
+            });
         });
 
         it('setAllowance should be fulfilled', () => {

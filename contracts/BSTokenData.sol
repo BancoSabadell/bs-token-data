@@ -1,9 +1,8 @@
 pragma solidity ^0.4.2;
 
-import "Stoppable.sol";
 import "PermissionManager.sol";
 
-contract BSTokenData is Stoppable {
+contract BSTokenData {
     string public standard = 'BSToken 0.1';
     string public name = 'BSToken';
     string public symbol = 'BST';
@@ -67,10 +66,13 @@ contract BSTokenData is Stoppable {
     }
 
     modifier onlyAdminOrMerchants {
-        // Rol 2 = _rol(this) = Rol BSTokenData
-        // (logic_id, BSTokenData, 0)
         if (!pm.getNetworkAdmin(pm.getRol(msg.sender)) && !pm.getRelationship(msg.sender, this, 0))
             throw;
+        _;
+    }
+
+    modifier stopInEmergency {
+        if (pm.getRol(this) == 3) throw;
         _;
     }
 }

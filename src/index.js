@@ -5,8 +5,6 @@ const fs = require('fs');
 const path = require('path');
 
 exports.contracts = {
-    'Ownable.sol': fs.readFileSync(path.join(__dirname, '../contracts/Ownable.sol'), 'utf8'),
-    'Stoppable.sol': fs.readFileSync(path.join(__dirname, '../contracts/Stoppable.sol'), 'utf8'),
     'BSTokenData.sol': fs.readFileSync(path.join(__dirname, '../contracts/BSTokenData.sol'), 'utf8'),
     'PermissionManager.sol': fs.readFileSync(path.join(__dirname, '../contracts/PermissionManager.sol'), 'utf8')
 };
