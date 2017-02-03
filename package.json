@@ -31,7 +31,7 @@
     "solc": "^0.4.6",
     "web3": "^0.16.0",
     "eslint": "^3.12.2",
-    "gt-permission-manager": "^1.0.0",
+    "gt-permission-manager": "^1.0.3",
     "contract-deployer": "^1.0.0"
   },
   "devDependencies": {
@@ -67,6 +67,7 @@
           "functions": "ignore"
         }
       ]
-    }
+    },
+    "extends": "airbnb-base"
   }
 }
