@@ -67,19 +67,23 @@ describe('BsTokenData contract', function () {
                 return permissionManager.createRolAsync( { from: admin, gas: gas });
             })
             .then(() => {
-                // Merchant role = 4
+                // Emergency role = 4
+                return permissionManager.createRolAsync( { from: admin, gas: gas });
+            })
+            .then(() => {
+                // Merchant role = 5
                 return permissionManager.createAndSetRolAsync(merchant, { from: admin, gas: gas })
             })
             .then(() => {
                 // Relationship from merchant to Data
-                return permissionManager.allowInteractionAsync(4, 2, 0, { from: admin, gas: gas })
+                return permissionManager.allowInteractionAsync(5, 2, 0, { from: admin, gas: gas })
             });
     });
 
     describe('deployment', () => {
         it('check number of roles', () => {
             return permissionManager.getNumRolesAsync()
-                .should.eventually.satisfy(num => num.equals(new BigNumber(5)), `num should be 5`);
+                .should.eventually.satisfy(num => num.equals(new BigNumber(6)), `num should be 6`);
         });
 
         it('check role admin', () => {
@@ -94,7 +98,7 @@ describe('BsTokenData contract', function () {
 
         it('check role merchant', () => {
             return permissionManager.getRolAsync(merchant)
-                .should.eventually.satisfy(role => role.equals(new BigNumber(4)), `rol should be 4`);
+                .should.eventually.satisfy(role => role.equals(new BigNumber(5)), `rol should be 5`);
         });
 
         it('check role account2', () => {
@@ -115,7 +119,7 @@ describe('BsTokenData contract', function () {
 
     describe('stoppable as admin', () => {
         it('start should be fulfilled', () => {
-            return permissionManager.setRolAsync(bsTokenData.address, 3, {
+            return permissionManager.setRolAsync(bsTokenData.address, 4, {
                 from: admin,
                 gas: gas
             });
@@ -131,7 +135,7 @@ describe('BsTokenData contract', function () {
 
     describe('stoppable as non admin account', () => {
         it('start should be rejected', () => {
-            return permissionManager.setRolAsync(bsTokenData.address, 3, {
+            return permissionManager.setRolAsync(bsTokenData.address, 4, {
                 from: account2,
                 gas: gas
             }).should.eventually.be.rejected;
@@ -190,14 +194,14 @@ describe('BsTokenData contract', function () {
 
     describe('add/remove merchant as admin', () => {
         it('add should be fulfilled', () => {
-            return permissionManager.setRolAsync(merchant, 4, {
+            return permissionManager.setRolAsync(merchant, 5, {
                 from: admin,
                 gas: gas
             });
         });
 
         it('interaction should be fulfilled', () => {
-            return permissionManager.allowInteractionAsync(4, 2, 0, {
+            return permissionManager.allowInteractionAsync(5, 2, 0, {
                 from: admin,
                 gas: gas
             });
@@ -209,7 +213,7 @@ describe('BsTokenData contract', function () {
         });
 
         it('remove should be fulfilled', () => {
-            return permissionManager.disallowInteractionAsync(4, 2, 0, { from: admin, gas: gas });
+            return permissionManager.disallowInteractionAsync(5, 2, 0, { from: admin, gas: gas });
         });
 
         it('check merchant', () => {
@@ -218,13 +222,13 @@ describe('BsTokenData contract', function () {
         });
 
         it('add merchant again', () => {
-            return permissionManager.allowInteractionAsync(4, 2, 0, { from: admin, gas: gas });
+            return permissionManager.allowInteractionAsync(5, 2, 0, { from: admin, gas: gas });
         });
     });
 
     describe('add/remove merchant as non admin account', () => {
         it('add should be rejected', () => {
-            const promise = permissionManager.setRolAsync(merchant, 4, {
+            const promise = permissionManager.setRolAsync(merchant, 5, {
                 from: account2,
                 gas: gas
             });
@@ -254,7 +258,7 @@ describe('BsTokenData contract', function () {
 
     describe('set/get Balance as admin', () => {
         it('start emergency', () => {
-            return permissionManager.setRolAsync(bsTokenData.address, 3, {
+            return permissionManager.setRolAsync(bsTokenData.address, 4, {
                 from: admin,
                 gas: gas
             });
@@ -303,14 +307,14 @@ describe('BsTokenData contract', function () {
 
     describe('set/get Balance as merchant', () => {
         it('add merchant', () => {
-            return permissionManager.setRolAsync(merchant, 4, {
+            return permissionManager.setRolAsync(merchant, 5, {
                 from: admin,
                 gas: gas
             });
         });
 
         it('start emergency', () => {
-            return permissionManager.setRolAsync(bsTokenData.address, 3, {
+            return permissionManager.setRolAsync(bsTokenData.address, 4, {
                 from: admin,
                 gas: gas
             });
@@ -379,7 +383,7 @@ describe('BsTokenData contract', function () {
 
     describe('set/get totalSupply as admin', () => {
         it('start emergency', () => {
-            return permissionManager.setRolAsync(bsTokenData.address, 3, {
+            return permissionManager.setRolAsync(bsTokenData.address, 4, {
                 from: admin,
                 gas: gas
             });
@@ -428,7 +432,7 @@ describe('BsTokenData contract', function () {
 
     describe('set/get totalSupply as merchant', () => {
         it('add merchant', () => {
-            return permissionManager.setRolAsync(merchant, 4, {
+            return permissionManager.setRolAsync(merchant, 5, {
                 from: admin,
                 gas: gas
             });
@@ -442,14 +446,14 @@ describe('BsTokenData contract', function () {
         });
 
         it('create interaction', () => {
-            return permissionManager.allowInteractionAsync(4, 2, 0, {
+            return permissionManager.allowInteractionAsync(5, 2, 0, {
                 from: admin,
                 gas: gas
             });
         });
 
         it('start emergency', () => {
-            return permissionManager.setRolAsync(bsTokenData.address, 3, {
+            return permissionManager.setRolAsync(bsTokenData.address, 4, {
                 from: admin,
                 gas: gas
             });
@@ -521,7 +525,7 @@ describe('BsTokenData contract', function () {
 
     describe('set/get allowance as admin', () => {
         it('start emergency', () => {
-            return permissionManager.setRolAsync(bsTokenData.address, 3, {
+            return permissionManager.setRolAsync(bsTokenData.address, 4, {
                 from: admin,
                 gas: gas
             });
@@ -570,14 +574,14 @@ describe('BsTokenData contract', function () {
 
     describe('set/get allowance as merchant', () => {
         it('add merchant', () => {
-            return permissionManager.setRolAsync(merchant, 4, {
+            return permissionManager.setRolAsync(merchant, 5, {
                 from: admin,
                 gas: gas
             });
         });
 
         it('start emergency', () => {
-            return permissionManager.setRolAsync(bsTokenData.address, 3, {
+            return permissionManager.setRolAsync(bsTokenData.address, 4, {
                 from: admin,
                 gas: gas
             });

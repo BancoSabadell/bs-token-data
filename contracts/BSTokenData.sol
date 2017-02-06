@@ -72,7 +72,7 @@ contract BSTokenData {
     }
 
     modifier stopInEmergency {
-        if (pm.getRol(this) == 3) throw;
+        if (pm.getRol(this) == 4) throw;
         _;
     }
 }

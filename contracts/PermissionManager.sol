@@ -1,4 +1,4 @@
-pragma solidity ^0.4.4;
+pragma solidity ^0.4.2;
 
 contract PermissionManager {
   mapping(address => uint) public _rol; // Defines a specifid rol to an address. Default rol: 0
