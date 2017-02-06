@@ -1,27 +1,28 @@
 pragma solidity ^0.4.2;
 
-import "Stoppable.sol";
+import "PermissionManager.sol";
 
-contract BSTokenData is Stoppable {
+contract BSTokenData {
     string public standard = 'BSToken 0.1';
     string public name = 'BSToken';
     string public symbol = 'BST';
     uint8 public decimals = 2;
 
-    /* Only merchant contracts can interact with the data */
-    mapping (address => bool) public merchants;
-
     struct Account {
         uint256 balance;
-        bool frozen;
         mapping (address => uint256) allowance;
-        mapping (address => bool) frozenForMerchant;
     }
-    
+
     /* Total token supply */
     uint256 public totalSupply;
     /* Accounts or "wallets" */
     mapping (address => Account) public accounts;
+
+    PermissionManager pm;
+
+    function BSTokenData(address permissionManagerAddress) {
+        pm = PermissionManager(permissionManagerAddress);
+    }
 
     function setBalance(address account, uint256 balance) onlyAdminOrMerchants stopInEmergency {
         accounts[account].balance = balance;
@@ -47,37 +48,31 @@ contract BSTokenData is Stoppable {
         return accounts[account].allowance[spender];
     }
 
-    function freezeAccount(address account, bool freeze) onlyAdmin {
-        accounts[account].frozen = freeze;
-    }
-
     function frozenAccount(address account) constant returns (bool) {
-        return accounts[account].frozen;
-    }
-
-    function freezeAccountForMerchant(address account, bool freeze) onlyAdminOrMerchants stopInEmergency {
-        accounts[account].frozenForMerchant[msg.sender] = freeze;
+        return (pm.getRol(account) == 3);
     }
 
     function frozenAccountForMerchant(address account) constant returns (bool) {
-        return accounts[account].frozenForMerchant[msg.sender];
+        return pm.getRelationship(account, this, 1);
     }
 
-    function addMerchant(address merchant) onlyAdmin {
-        merchants[merchant] = true;
-    }
-
-    function removeMerchant(address merchant) onlyAdmin {
-        delete merchants[merchant];
+    function isMerchant(address account) constant returns(bool) {
+        return pm.getRelationship(account, this, 0);
     }
 
     modifier onlyAdmin {
-        if (msg.sender != owner) throw;
+        if (!pm.getNetworkAdmin(pm.getRol(msg.sender))) throw;
         _;
     }
 
     modifier onlyAdminOrMerchants {
-        if (msg.sender != owner && !merchants[msg.sender]) throw;
+        if (!pm.getNetworkAdmin(pm.getRol(msg.sender)) && !pm.getRelationship(msg.sender, this, 0))
+            throw;
+        _;
+    }
+
+    modifier stopInEmergency {
+        if (pm.getRol(this) == 4) throw;
         _;
     }
 }
