@@ -1,6 +1,6 @@
 {
   "name": "bs-token-data",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A contract which persits all the data related with bs ethereum system",
   "main": "src/index.js",
   "scripts": {
