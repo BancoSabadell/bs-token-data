@@ -8,14 +8,14 @@ contract BSTokenData is Stoppable {
     string public symbol = 'BST';
     uint8 public decimals = 2;
 
-    /* Only merchant contracts can interact with the data */
-    mapping (address => bool) public merchants;
+    /* Only logics contracts can interact with the data */
+    mapping (address => bool) public logics;
 
     struct Account {
         uint256 balance;
         bool frozen;
         mapping (address => uint256) allowance;
-        mapping (address => bool) frozenForMerchant;
+        mapping (address => bool) frozenForLogic;
     }
 
     function BSTokenData(address permissionManagerAddress) {
@@ -59,24 +59,24 @@ contract BSTokenData is Stoppable {
         return accounts[account].frozen;
     }
 
-    function freezeAccountForMerchant(address account, bool freeze) onlyAdminOrLogics stopInEmergency {
-        accounts[account].frozenForMerchant[msg.sender] = freeze;
+    function freezeAccountForLogic(address account, bool freeze) onlyAdminOrLogics stopInEmergency {
+        accounts[account].frozenForLogic[msg.sender] = freeze;
     }
 
-    function frozenAccountForMerchant(address account) constant returns (bool) {
-        return accounts[account].frozenForMerchant[msg.sender];
+    function frozenAccountForLogic(address account) constant returns (bool) {
+        return accounts[account].frozenForLogic[msg.sender];
     }
 
-    function addMerchant(address merchant) onlyAdmin {
-        merchants[merchant] = true;
+    function addLogic(address logic) onlyAdmin {
+        logics[logic] = true;
     }
 
-    function removeMerchant(address merchant) onlyAdmin {
-        delete merchants[merchant];
+    function removeLogic(address logic) onlyAdmin {
+        delete logics[logic];
     }
 
     modifier onlyAdminOrLogics {
-        if (!pm.getNetworkAdmin(pm.getRol(msg.sender)) && !merchants[msg.sender]) throw;
+        if (!pm.getNetworkAdmin(pm.getRol(msg.sender)) && !logics[msg.sender]) throw;
         _;
     }
 }

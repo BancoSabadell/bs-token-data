@@ -47,7 +47,7 @@ describe('BsTokenData contract', function () {
 
     const admin = '0x5bd47e61fbbf9c8b70372b6f14b068fddbd834ac';
     const account2 = '0x25e940685e0999d4aa7bd629d739c6a04e625761';
-    const merchant = '0x6128333118cef876bd620da1efa464437470298d';
+    const logic = '0x6128333118cef876bd620da1efa464437470298d';
     const spender = '0x93e17017217881d157a47c6ed6d7ae4c8d7ed2bf';
 
     before(function() {
@@ -57,7 +57,7 @@ describe('BsTokenData contract', function () {
             .then(() => BsTokenData.deployedContract(web3, admin, permissionManager, gas))
             .then((contract) => {
                 bsTokenData = contract;
-                bsTokenData.addMerchantAsync(merchant, { from: admin, gas: gas });
+                bsTokenData.addLogicAsync(logic, { from: admin, gas: gas });
             });
     });
 
@@ -125,33 +125,33 @@ describe('BsTokenData contract', function () {
         });
     });
 
-    describe('add/remove merchant as admin', () => {
+    describe('add/remove logic as admin', () => {
         it('add should be fulfilled', () => {
-            return bsTokenData.addMerchantAsync(merchant, {
+            return bsTokenData.addLogicAsync(logic, {
                 from: admin,
                 gas: gas
             });
         });
 
-        it('check merchant', () => {
-            return bsTokenData.merchantsAsync(merchant).should.eventually.equals(true);
+        it('check logic', () => {
+            return bsTokenData.logicsAsync(logic).should.eventually.equals(true);
         });
 
         it('remove should be fulfilled', () => {
-            return bsTokenData.removeMerchantAsync(merchant, {
+            return bsTokenData.removeLogicAsync(logic, {
                 from: admin,
                 gas: gas
             });
         });
 
-        it('check merchant', () => {
-            return bsTokenData.merchantsAsync(merchant).should.eventually.equals(false);
+        it('check logic', () => {
+            return bsTokenData.logicsAsync(logic).should.eventually.equals(false);
         });
     });
 
-    describe('add/remove merchant as non admin account', () => {
+    describe('add/remove logic as non admin account', () => {
         it('add should be rejected', () => {
-            const promise = bsTokenData.addMerchantAsync(merchant, {
+            const promise = bsTokenData.addLogicAsync(logic, {
                 from: account2,
                 gas: gas
             });
@@ -159,12 +159,12 @@ describe('BsTokenData contract', function () {
             return promise.should.eventually.be.rejected;
         });
 
-        it('check merchant', () => {
-            return bsTokenData.merchantsAsync(merchant).should.eventually.equals(false);
+        it('check logic', () => {
+            return bsTokenData.logicsAsync(logic).should.eventually.equals(false);
         });
 
         it('remove should be rejected', () => {
-            const promise = bsTokenData.removeMerchantAsync(merchant, {
+            const promise = bsTokenData.removeLogicAsync(logic, {
                 from: account2,
                 gas: gas
             });
@@ -172,8 +172,8 @@ describe('BsTokenData contract', function () {
             return promise.should.eventually.be.rejected;
         });
 
-        it('check merchant', () => {
-            return bsTokenData.merchantsAsync(merchant).should.eventually.equals(false);
+        it('check logic', () => {
+            return bsTokenData.logicsAsync(logic).should.eventually.equals(false);
         });
     });
 
@@ -220,9 +220,9 @@ describe('BsTokenData contract', function () {
         });
     });
 
-    describe('set/get Balance as merchant', () => {
-        it('add merchant', () => {
-            return bsTokenData.addMerchantAsync(merchant, {
+    describe('set/get Balance as logic', () => {
+        it('add logic', () => {
+            return bsTokenData.addLogicAsync(logic, {
                 from: admin,
                 gas: gas
             });
@@ -234,7 +234,7 @@ describe('BsTokenData contract', function () {
 
         it('setBalance should be rejected if stopInEmergency', () => {
             const promise = bsTokenData.setBalanceAsync(account2, amount, {
-                from: merchant,
+                from: logic,
                 gas: gas
             });
 
@@ -247,7 +247,7 @@ describe('BsTokenData contract', function () {
 
         it('setBalance should be fulfilled', () => {
             return bsTokenData.setBalanceAsync(account2, amount, {
-                from: merchant,
+                from: logic,
                 gas: gas
             });
         });
@@ -259,7 +259,7 @@ describe('BsTokenData contract', function () {
 
         it('setBalance should be fulfilled', () => {
             return bsTokenData.setBalanceAsync(account2, 0, {
-                from: merchant,
+                from: logic,
                 gas: gas
             });
         });
@@ -269,18 +269,18 @@ describe('BsTokenData contract', function () {
                 .should.eventually.satisfy(balance => balance.equals(new BigNumber(0)), `balance should be 0`);
         });
 
-        it('remove merchant', () => {
-            return bsTokenData.removeMerchantAsync(merchant, {
+        it('remove logic', () => {
+            return bsTokenData.removeLogicAsync(logic, {
                 from: admin,
                 gas: gas
             });
         });
     });
 
-    describe('set/get Balance as non admin/merchant', () => {
+    describe('set/get Balance as non admin/logic', () => {
         it('setBalance should be rejected', () => {
             const promise = bsTokenData.setBalanceAsync(account2, amount, {
-                from: merchant,
+                from: logic,
                 gas: gas
             });
 
@@ -336,9 +336,9 @@ describe('BsTokenData contract', function () {
         });
     });
 
-    describe('set/get totalSupply as merchant', () => {
-        it('add merchant', () => {
-            return bsTokenData.addMerchantAsync(merchant, {
+    describe('set/get totalSupply as logic', () => {
+        it('add logic', () => {
+            return bsTokenData.addLogicAsync(logic, {
                 from: admin,
                 gas: gas
             });
@@ -350,7 +350,7 @@ describe('BsTokenData contract', function () {
 
         it('setTotalSupply should be rejected if stopInEmergency', () => {
             const promise = bsTokenData.setTotalSupplyAsync(amount, {
-                from: merchant,
+                from: logic,
                 gas: gas
             });
 
@@ -363,7 +363,7 @@ describe('BsTokenData contract', function () {
 
         it('setTotalSupply should be fulfilled', () => {
             return bsTokenData.setTotalSupplyAsync(amount, {
-                from: merchant,
+                from: logic,
                 gas: gas
             });
         });
@@ -375,7 +375,7 @@ describe('BsTokenData contract', function () {
 
         it('setTotalSupply should be fulfilled', () => {
             return bsTokenData.setTotalSupplyAsync(0, {
-                from: merchant,
+                from: logic,
                 gas: gas
             });
         });
@@ -385,18 +385,18 @@ describe('BsTokenData contract', function () {
                 .should.eventually.satisfy(supply => supply.equals(new BigNumber(0)), `supply should be 0`);
         });
 
-        it('remove merchant', () => {
-            return bsTokenData.removeMerchantAsync(merchant, {
+        it('remove logic', () => {
+            return bsTokenData.removeLogicAsync(logic, {
                 from: admin,
                 gas: gas
             });
         });
     });
 
-    describe('set/get totalSupply as non admin/merchant', () => {
+    describe('set/get totalSupply as non admin/logic', () => {
         it('setTotalSupply should be rejected', () => {
             const promise = bsTokenData.setBalanceAsync(account2, amount, {
-                from: merchant,
+                from: logic,
                 gas: gas
             });
 
@@ -452,9 +452,9 @@ describe('BsTokenData contract', function () {
         });
     });
 
-    describe('set/get allowance as merchant', () => {
-        it('add merchant', () => {
-            return bsTokenData.addMerchantAsync(merchant, {
+    describe('set/get allowance as logic', () => {
+        it('add logic', () => {
+            return bsTokenData.addLogicAsync(logic, {
                 from: admin,
                 gas: gas
             });
@@ -466,7 +466,7 @@ describe('BsTokenData contract', function () {
 
         it('setAllowance should be rejected if stopInEmergency', () => {
             const promise = bsTokenData.setAllowanceAsync(account2, spender, amount, {
-                from: merchant,
+                from: logic,
                 gas: gas
             });
 
@@ -479,7 +479,7 @@ describe('BsTokenData contract', function () {
 
         it('setAllowance should be fulfilled', () => {
             return bsTokenData.setAllowanceAsync(account2, spender, amount, {
-                from: merchant,
+                from: logic,
                 gas: gas
             });
         });
@@ -491,7 +491,7 @@ describe('BsTokenData contract', function () {
 
         it('setAllowance should be fulfilled', () => {
             return bsTokenData.setAllowanceAsync(account2, spender, 0, {
-                from: merchant,
+                from: logic,
                 gas: gas
             });
         });
@@ -501,18 +501,18 @@ describe('BsTokenData contract', function () {
                 .should.eventually.satisfy(allowance => allowance.equals(new BigNumber(0)), `allowance should be 0`);
         });
 
-        it('remove merchant', () => {
-            return bsTokenData.removeMerchantAsync(merchant, {
+        it('remove logic', () => {
+            return bsTokenData.removeLogicAsync(logic, {
                 from: admin,
                 gas: gas
             });
         });
     });
 
-    describe('set/get allowance as non admin/merchant', () => {
+    describe('set/get allowance as non admin/logic', () => {
         it('setAllowance should be rejected', () => {
             const promise = bsTokenData.setAllowanceAsync(account2, spender, amount, {
-                from: merchant,
+                from: logic,
                 gas: gas
             });
 
