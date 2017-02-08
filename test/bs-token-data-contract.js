@@ -526,28 +526,40 @@ describe('BsTokenData contract', function () {
     });
 
     describe('transferOwnership', () => {
-        it('should be rejected if the account is not the admin', () => {
-            const promise = bsTokenData.transferOwnershipAsync(account2, {
-                from: merchant,
+        it('add admin as non admin', () => {
+            return permissionManager.setRolAsync(account2, 1, {
+                from: account2,
                 gas: gas
-            });
-
-            return promise.should.eventually.be.rejected;
+            }).should.eventually.be.rejected;
         });
 
-        it('check owner remains the same', () => {
-            return bsTokenData.ownerAsync().should.eventually.equals(admin);
+        it('check admin status', () => {
+            return permissionManager.getRolAsync(account2)
+                .should.eventually.satisfy(rol => rol.equals(new BigNumber(0)), `rol should be 0`);
         });
 
-        it('should be fulfilled', () => {
-            return bsTokenData.transferOwnershipAsync(account2, {
+        it('add account2 as admin', () => {
+            return permissionManager.setRolAsync(account2, 1, {
                 from: admin,
                 gas: gas
             });
         });
 
-        it('check owner has been updated', () => {
-            return bsTokenData.ownerAsync().should.eventually.equals(account2);
+        it('check admin status', () => {
+            return permissionManager.getRolAsync(account2)
+                .should.eventually.satisfy(rol => rol.equals(new BigNumber(1)), `rol should be 1`);
+        });
+
+        it('remove admin', () => {
+            return permissionManager.setRolAsync(account2, 0, {
+                from: admin,
+                gas: gas
+            });
+        });
+
+        it('check admin status', () => {
+            return permissionManager.getRolAsync(account2)
+                .should.eventually.satisfy(rol => rol.equals(new BigNumber(0)), `rol should be 0`);
         });
     });
 });

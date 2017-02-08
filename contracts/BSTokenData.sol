@@ -17,13 +17,17 @@ contract BSTokenData is Stoppable {
         mapping (address => uint256) allowance;
         mapping (address => bool) frozenForMerchant;
     }
-    
+
+    function BSTokenData(address permissionManagerAddress) {
+        super.setPMAddress(permissionManagerAddress);
+    }
+
     /* Total token supply */
     uint256 public totalSupply;
     /* Accounts or "wallets" */
     mapping (address => Account) public accounts;
 
-    function setBalance(address account, uint256 balance) onlyAdminOrMerchants stopInEmergency {
+    function setBalance(address account, uint256 balance) onlyAdminOrLogics stopInEmergency {
         accounts[account].balance = balance;
     }
 
@@ -31,7 +35,7 @@ contract BSTokenData is Stoppable {
         return accounts[account].balance;
     }
 
-    function setTotalSupply(uint256 aTotalSupply) onlyAdminOrMerchants stopInEmergency {
+    function setTotalSupply(uint256 aTotalSupply) onlyAdminOrLogics stopInEmergency {
         totalSupply = aTotalSupply;
     }
 
@@ -39,7 +43,7 @@ contract BSTokenData is Stoppable {
         return totalSupply;
     }
 
-    function setAllowance(address account, address spender, uint256 amount) onlyAdminOrMerchants stopInEmergency {
+    function setAllowance(address account, address spender, uint256 amount) onlyAdminOrLogics stopInEmergency {
         accounts[account].allowance[spender] = amount;
     }
 
@@ -55,7 +59,7 @@ contract BSTokenData is Stoppable {
         return accounts[account].frozen;
     }
 
-    function freezeAccountForMerchant(address account, bool freeze) onlyAdminOrMerchants stopInEmergency {
+    function freezeAccountForMerchant(address account, bool freeze) onlyAdminOrLogics stopInEmergency {
         accounts[account].frozenForMerchant[msg.sender] = freeze;
     }
 
@@ -71,13 +75,8 @@ contract BSTokenData is Stoppable {
         delete merchants[merchant];
     }
 
-    modifier onlyAdmin {
-        if (msg.sender != owner) throw;
-        _;
-    }
-
-    modifier onlyAdminOrMerchants {
-        if (msg.sender != owner && !merchants[msg.sender]) throw;
+    modifier onlyAdminOrLogics {
+        if (!pm.getNetworkAdmin(pm.getRol(msg.sender)) && !merchants[msg.sender]) throw;
         _;
     }
 }
