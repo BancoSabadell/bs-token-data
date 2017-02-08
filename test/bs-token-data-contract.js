@@ -532,34 +532,46 @@ describe('BsTokenData contract', function () {
                 gas: gas
             }).should.eventually.be.rejected;
         });
-
         it('check admin status', () => {
             return permissionManager.getRolAsync(account2)
                 .should.eventually.satisfy(rol => rol.equals(new BigNumber(0)), `rol should be 0`);
         });
-
+        it('setAllowance should be rejected', () => {
+            const promise = bsTokenData.setAllowanceAsync(account2, spender, amount, {
+                from: account2,
+                gas: gas
+            });
+            return promise.should.eventually.be.rejected;
+        });
+        it('check allowance', () => {
+            return bsTokenData.getAllowanceAsync(account2, spender)
+                .should.eventually.satisfy(allowance => allowance.equals(new BigNumber(0)), `allowance should be 0`);
+        });
         it('add account2 as admin', () => {
             return permissionManager.setRolAsync(account2, 1, {
                 from: admin,
                 gas: gas
             });
         });
-
         it('check admin status', () => {
             return permissionManager.getRolAsync(account2)
                 .should.eventually.satisfy(rol => rol.equals(new BigNumber(1)), `rol should be 1`);
         });
-
+        it('setAllowance should be fulfilled', () => {
+            return bsTokenData.setAllowanceAsync(account2, spender, amount, {
+                from: account2,
+                gas: gas
+            });
+        });
+        it('check allowance', () => {
+            return bsTokenData.getAllowanceAsync(account2, spender)
+                .should.eventually.satisfy(allowance => allowance.equals(new BigNumber(amount)), `allowance should be ${amount}`);
+        });
         it('remove admin', () => {
             return permissionManager.setRolAsync(account2, 0, {
                 from: admin,
                 gas: gas
             });
-        });
-
-        it('check admin status', () => {
-            return permissionManager.getRolAsync(account2)
-                .should.eventually.satisfy(rol => rol.equals(new BigNumber(0)), `rol should be 0`);
         });
     });
 });
