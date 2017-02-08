@@ -1,9 +1,8 @@
 pragma solidity ^0.4.2;
 
-import 'Ownable.sol';
+import "Admin.sol";
 
-contract Stoppable is Ownable {
-
+contract Stoppable is Admin {
     bool public emergency;
 
     modifier stopInEmergency {
@@ -11,11 +10,15 @@ contract Stoppable is Ownable {
         _;
     }
 
-    function startEmergency() external onlyOwner {
+    function startEmergency() external onlyAdmin {
         emergency = true;
     }
 
-    function stopEmergency() external onlyOwner {
+    function stopEmergency() external onlyAdmin {
         emergency = false;
+    }
+
+    function setPMAddress(address permissionManagerAddress) internal {
+        super.setPMAddress(permissionManagerAddress);
     }
 }
