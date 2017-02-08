@@ -1,6 +1,6 @@
 {
   "name": "bs-token-data",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "A contract which persits all the data related with bs ethereum system",
   "main": "src/index.js",
   "scripts": {
@@ -31,7 +31,7 @@
     "solc": "^0.4.6",
     "web3": "^0.16.0",
     "eslint": "^3.12.2",
-    "gt-permission-manager": "^1.0.0",
+    "gt-permission-manager": "^1.0.3",
     "contract-deployer": "^1.0.0"
   },
   "devDependencies": {
