@@ -1,6 +1,6 @@
 {
   "name": "bs-token-data",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A contract which persits all the data related with bs ethereum system",
   "main": "src/index.js",
   "scripts": {
@@ -31,12 +31,12 @@
     "solc": "^0.4.6",
     "web3": "^0.16.0",
     "eslint": "^3.12.2",
-    "gt-permission-manager": "^1.0.3",
-    "contract-deployer": "^1.0.0"
+    "gt-permission-manager": "^1.0.5",
+    "contract-deployer": "^1.0.0",
+    "bluebird": "^3.4.6"
   },
   "devDependencies": {
     "bignumber.js": "^4.0.0",
-    "bluebird": "^3.4.6",
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
     "ethereumjs-testrpc": "^3.0.2",
