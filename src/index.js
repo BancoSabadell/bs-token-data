@@ -6,11 +6,11 @@ const path = require('path');
 const GTPermissionManager = require('gt-permission-manager');
 const Promise = require('bluebird');
 
-exports.contracts = Object.assign(GTPermissionManager.contracts, {
+exports.contracts = Object.freeze(Object.assign({}, GTPermissionManager.contracts, {
     'Admin.sol': fs.readFileSync(path.join(__dirname, '../contracts/Admin.sol'), 'utf8'),
     'Stoppable.sol': fs.readFileSync(path.join(__dirname, '../contracts/Stoppable.sol'), 'utf8'),
     'BSTokenData.sol': fs.readFileSync(path.join(__dirname, '../contracts/BSTokenData.sol'), 'utf8')
-});
+}));
 
 exports.deployContract = function (web3, admin, permissionManager, gas) {
     const deployer = new Deployer(web3, {sources: exports.contracts}, 0);
