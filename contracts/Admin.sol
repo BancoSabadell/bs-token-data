@@ -10,7 +10,7 @@ contract Admin {
         _;
     }
 
-    function setPMAddress(address permissionManagerAddress) internal {
+    function init(address permissionManagerAddress) internal {
         pm = PermissionManager(permissionManagerAddress);
     }
 }

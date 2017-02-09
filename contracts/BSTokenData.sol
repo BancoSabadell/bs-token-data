@@ -19,7 +19,7 @@ contract BSTokenData is Stoppable {
     }
 
     function BSTokenData(address permissionManagerAddress) {
-        super.setPMAddress(permissionManagerAddress);
+        super.init(permissionManagerAddress);
     }
 
     /* Total token supply */
