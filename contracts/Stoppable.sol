@@ -17,8 +17,4 @@ contract Stoppable is Admin {
     function stopEmergency() external onlyAdmin {
         emergency = false;
     }
-
-    function setPMAddress(address permissionManagerAddress) internal {
-        super.setPMAddress(permissionManagerAddress);
-    }
 }
