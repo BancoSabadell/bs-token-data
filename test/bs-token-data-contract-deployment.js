@@ -39,7 +39,7 @@ describe('BsTokenData deployment', function () {
 
     describe('deployed', () => {
         it('should be fulfilled', () => {
-            return BsTokenData.deployedContract(web3, admin, bsTokenData.abi, bsTokenData.address);
+            return BsTokenData.deployedContract(web3, bsTokenData.abi, bsTokenData.address);
         });
     });
 
